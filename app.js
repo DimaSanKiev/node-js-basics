@@ -4,9 +4,15 @@
 var http = require("https");
 var username = "chrisramacciotti";
 
+// print out message
 function printMessage(username, badgeCount, points) {
     var message = username + " has " + badgeCount + " total badge(s) and " + points + " points in Java.";
     console.log(message);
+}
+
+// print out error messages
+function printError(error) {
+    console.error(error.message);
 }
 
 // connect to the API URL: (https://teamtreehouse.com/username.json)
@@ -18,8 +24,21 @@ var request = http.get("https://teamtreehouse.com/" + username + ".json", functi
         body += chunk;
     });
     response.on('end', function () {
-        var profile = JSON.parse(body);
-        printMessage(username, profile.badges.length, profile.points.Java);
+        if (response.statusCode == 200) {
+            try {
+                var profile = JSON.parse(body);
+                printMessage(username, profile.badges.length, profile.points.Java);
+            } catch (error) {
+                // parse error
+                printError(error);
+            }
+        } else {
+            // status code error
+            printError({
+                message: "There was an error getting the profile for " + username + ". (" +
+                http.STATUS_CODES[response.statusCode] + ")"
+            });
+        }
     });
 
     // parse the data
@@ -27,6 +46,5 @@ var request = http.get("https://teamtreehouse.com/" + username + ".json", functi
     // print the data out
 });
 
-request.on("error", function (error) {
-    console.error(error.message);
-});
+// connection error
+request.on("error", printError());
