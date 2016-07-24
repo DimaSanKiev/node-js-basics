@@ -11,10 +11,19 @@ function printMessage(username, badgeCount, points) {
 
 // connect to the API URL: (https://teamtreehouse.com/username.json)
 var request = http.get("https://teamtreehouse.com/" + username + ".json", function (response) {
-    console.log(response.statusCode);
+    var body = "";
+
     // read the data from response
+    response.on('data', function (chunk) {
+        body += chunk;
+    });
+    response.on('end', function () {
+        console.log(body);
+        console.log(typeof body);
+    });
 
     // parse the data
+
     // print the data out
 });
 
