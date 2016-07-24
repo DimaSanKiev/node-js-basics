@@ -5,7 +5,7 @@ var http = require("https");
 var username = "chrisramacciotti";
 
 function printMessage(username, badgeCount, points) {
-    var message = username + " has " + badgeCount + " total badge(s) and " + points + " points in JavaScript";
+    var message = username + " has " + badgeCount + " total badge(s) and " + points + " points in Java.";
     console.log(message);
 }
 
@@ -18,8 +18,8 @@ var request = http.get("https://teamtreehouse.com/" + username + ".json", functi
         body += chunk;
     });
     response.on('end', function () {
-        console.log(body);
-        console.log(typeof body);
+        var profile = JSON.parse(body);
+        printMessage(username, profile.badges.length, profile.points.Java);
     });
 
     // parse the data
