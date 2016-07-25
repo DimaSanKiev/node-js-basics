@@ -15,7 +15,7 @@ function printError(error) {
 }
 
 function getProfile(username) {
-// connect to the API URL: (https://teamtreehouse.com/username.json)
+    // connect to the API URL: (https://teamtreehouse.com/username.json)
     var request = http.get("https://teamtreehouse.com/" + username + ".json", function (response) {
         var body = "";
 
@@ -24,7 +24,7 @@ function getProfile(username) {
             body += chunk;
         });
         response.on('end', function () {
-            if (response.statusCode == 200) {
+            if (response.statusCode === 200) {
                 try {
                     // parse the data
                     var profile = JSON.parse(body);
@@ -44,8 +44,8 @@ function getProfile(username) {
         });
     });
 
-// connection error
-    request.on("error", printError());
+    // connection error
+    request.on("error", printError);
 }
 
 module.exports.get = getProfile;
