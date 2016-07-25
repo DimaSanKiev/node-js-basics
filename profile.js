@@ -1,4 +1,4 @@
-// Problem: we need a simple way to look at a user's badge count and JavaScript points
+// Problem: we need a simple way to look at a user's badge count and Java points
 // Solution: use Node.js to connect to Treehouse's API to get profile information to print out
 
 var http = require("https");
